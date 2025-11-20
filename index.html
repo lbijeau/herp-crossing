@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amphibian Road Mortality Data Collection</title>
+    <link rel="stylesheet" href="field-form/styles.css">
+    <style>
+        .landing-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .hero-emoji {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .info-card h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+
+        .info-card p {
+            color: #4a5568;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .link-btn {
+            display: inline-block;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <div class="hero">
+            <div class="hero-emoji">🦎</div>
+            <h1>Amphibian Road Mortality Data Collection</h1>
+            <p style="font-size: 1.2rem; color: #4a5568;">
+                Helping volunteers standardize amphibian road crossing data
+            </p>
+        </div>
+
+        <div class="card-grid">
+            <div class="info-card">
+                <h2>📱 Field Form</h2>
+                <p>Quick capture interface for use during patrol. Works offline and syncs when you're back online.</p>
+                <a href="field-form/index.html" class="link-btn">
+                    <button class="btn btn-primary">Open Field Form</button>
+                </a>
+            </div>
+
+            <div class="info-card">
+                <h2>✏️ Detail Form</h2>
+                <p>Add road details, effort data, and notes to your observations after your patrol.</p>
+                <a href="detail-form/index.html" class="link-btn">
+                    <button class="btn btn-primary">Open Detail Form</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="info-card" style="margin-top: 2rem;">
+            <h2>📖 About This Project</h2>
+            <p style="text-align: left;">
+                This is a validation system (Phase 1) for standardizing amphibian road mortality data collection.
+                Volunteers help salamanders and other amphibians cross roads safely during breeding migrations,
+                and this tool makes it easy to collect consistent, high-quality data.
+            </p>
+            <p style="text-align: left;">
+                <strong>How it works:</strong>
+            </p>
+            <ol style="text-align: left; color: #4a5568; line-height: 1.8;">
+                <li>During patrol: Use <strong>Field Form</strong> on your phone to log observations quickly</li>
+                <li>After patrol: Use <strong>Detail Form</strong> to add road details and additional notes</li>
+                <li>Data is stored in Google Sheets for easy analysis and sharing</li>
+            </ol>
+            <p style="text-align: left; margin-top: 1rem;">
+                <strong>Tips:</strong>
+            </p>
+            <ul style="text-align: left; color: #4a5568; line-height: 1.8;">
+                <li>Bookmark the Field Form on your phone's home screen for quick access</li>
+                <li>The Field Form works offline - data will sync when you're back online</li>
+                <li>Use the same observer name in both forms so you can find your data</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
