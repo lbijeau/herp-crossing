@@ -1,5 +1,5 @@
 // Configuration
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUiYSR-l4geLWNsuSKxpTGyJl09ck6zU7iPF0pOlX5ZynjJlFyAheTH0SQmviKCcvjCA/exec'; // TODO: Update after deployment
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwx7t7PLWG97FwzR6HWSTLv5JnteJVNZPv9tfB8Y8z0nW3ODGOr_zxTRERHH8Rvt7gmmg/exec';
 
 // State
 let observations = [];
@@ -312,12 +312,14 @@ function handleSubmit(e) {
 }
 
 function submitPatrolToServer(patrolData) {
-    return fetch(`${APPS_SCRIPT_URL}?action=submit`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(patrolData)
+    // Use GET request with data in URL to avoid CORS preflight
+    const params = new URLSearchParams({
+        action: 'submit',
+        data: JSON.stringify(patrolData)
+    });
+
+    return fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
+        method: 'GET'
     })
     .then(response => {
         if (!response.ok) {

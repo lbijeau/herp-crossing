@@ -26,46 +26,63 @@ function doGet(e) {
 
   if (action === 'getPatrols') {
     return handleGetPatrols(e);
+  } else if (action === 'submit') {
+    // Handle submit via GET to avoid CORS issues
+    return handleSubmitGet(e);
   }
 
   return jsonResponse({ error: 'Unknown action' }, 400);
 }
 
-function handleSubmit(e) {
+function handleSubmitGet(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Observations');
-
-    // data.observations is an array of observations from one patrol
-    const rows = data.observations.map(obs => [
-      new Date(), // SubmitTime
-      data.patrolDate,
-      data.patrolTime,
-      data.latitude,
-      data.longitude,
-      data.observer,
-      data.weather,
-      data.temperature || '',
-      obs.species,
-      obs.count,
-      obs.lifeStage,
-      obs.direction,
-      obs.condition,
-      obs.notes || ''
-    ]);
-
-    // Append all observations
-    if (rows.length > 0) {
-      sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, 14).setValues(rows);
-    }
-
-    return jsonResponse({
-      success: true,
-      message: `Submitted ${rows.length} observation(s)`
-    });
+    // Parse data from URL parameter
+    const data = JSON.parse(e.parameter.data);
+    return processSubmission(data);
   } catch (error) {
     return jsonResponse({ error: error.toString() }, 500);
   }
+}
+
+function handleSubmit(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    return processSubmission(data);
+  } catch (error) {
+    return jsonResponse({ error: error.toString() }, 500);
+  }
+}
+
+function processSubmission(data) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Observations');
+
+  // data.observations is an array of observations from one patrol
+  const rows = data.observations.map(obs => [
+    new Date(), // SubmitTime
+    data.patrolDate,
+    data.patrolTime,
+    data.latitude,
+    data.longitude,
+    data.observer,
+    data.weather,
+    data.temperature || '',
+    obs.species,
+    obs.count,
+    obs.lifeStage,
+    obs.direction,
+    obs.condition,
+    obs.notes || ''
+  ]);
+
+  // Append all observations
+  if (rows.length > 0) {
+    sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, 14).setValues(rows);
+  }
+
+  return jsonResponse({
+    success: true,
+    message: `Submitted ${rows.length} observation(s)`
+  });
 }
 
 function handleGetPatrols(e) {
