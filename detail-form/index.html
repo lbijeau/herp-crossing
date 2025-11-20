@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amphibian Patrol - Detail Entry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦎 Amphibian Patrol</h1>
+            <p class="subtitle">Add Patrol Details</p>
+        </header>
+
+        <div id="status-message" class="status-message hidden"></div>
+
+        <!-- Observer Selection -->
+        <section class="form-section">
+            <h2>Load Your Patrols</h2>
+            <div class="form-group">
+                <label for="observer-select">Your Name/ID</label>
+                <input type="text" id="observer-select" placeholder="Enter your observer name">
+                <small>Same name you used in the field form</small>
+            </div>
+            <button id="load-patrols" class="btn btn-primary">Load Patrols</button>
+        </section>
+
+        <!-- Patrols List -->
+        <section id="patrols-section" class="form-section hidden">
+            <h2>Your Recent Patrols</h2>
+            <div id="patrols-container">
+                <!-- Patrol entries will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Edit Form (hidden until patrol selected) -->
+        <section id="edit-section" class="form-section hidden">
+            <h2>Edit Observation</h2>
+            <form id="edit-form">
+                <input type="hidden" id="edit-row-index">
+
+                <div class="form-group">
+                    <label>Species</label>
+                    <input type="text" id="edit-species" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-road-name">Road Name</label>
+                    <input type="text" id="edit-road-name" placeholder="e.g., Ringwood Road">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="edit-speed-limit">Speed Limit (mph)</label>
+                        <input type="number" id="edit-speed-limit" placeholder="e.g., 35">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-traffic-volume">Traffic Volume</label>
+                        <select id="edit-traffic-volume">
+                            <option value="">Select...</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-additional-notes">Additional Notes</label>
+                    <textarea id="edit-additional-notes" rows="3" placeholder="Add any additional observations or context..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="edit-photo-url">Photo URL (Google Drive link)</label>
+                    <input type="url" id="edit-photo-url" placeholder="https://drive.google.com/...">
+                    <small>Upload photos to Google Drive and paste the share link</small>
+                </div>
+
+                <div class="button-row">
+                    <button type="submit" class="btn btn-primary">Save Updates</button>
+                    <button type="button" id="cancel-edit" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script src="detail-form.js"></script>
+</body>
+</html>
