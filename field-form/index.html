@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Amphibian Patrol - Field Form</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦎 Amphibian Patrol</h1>
+            <p class="subtitle">Quick Field Capture</p>
+        </header>
+
+        <div id="status-message" class="status-message hidden"></div>
+
+        <form id="patrol-form">
+            <!-- Session Info Section -->
+            <section class="form-section">
+                <h2>Patrol Session</h2>
+
+                <div class="form-group">
+                    <label for="observer">Your Name/ID</label>
+                    <input type="text" id="observer" required>
+                    <small>Will be saved for next time</small>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="patrol-date">Date</label>
+                        <input type="date" id="patrol-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="patrol-time">Time</label>
+                        <input type="time" id="patrol-time" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Location</label>
+                    <button type="button" id="get-location" class="btn btn-secondary">
+                        📍 Get My Location
+                    </button>
+                    <div id="location-display" class="location-display hidden">
+                        <small>Lat: <span id="lat-display">--</span>, Lon: <span id="lon-display">--</span></small>
+                    </div>
+                    <input type="hidden" id="latitude">
+                    <input type="hidden" id="longitude">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="weather">Weather</label>
+                        <select id="weather" required>
+                            <option value="">Select...</option>
+                            <option value="Clear">Clear</option>
+                            <option value="Cloudy">Cloudy</option>
+                            <option value="Rain">Rain</option>
+                            <option value="Fog">Fog</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="temperature">Temp (°F)</label>
+                        <input type="number" id="temperature" placeholder="Optional">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Observations Section -->
+            <section class="form-section">
+                <h2>Observations</h2>
+                <div id="observations-container">
+                    <!-- Observation entries will be added here dynamically -->
+                </div>
+                <button type="button" id="add-observation" class="btn btn-secondary">
+                    ➕ Add Observation
+                </button>
+            </section>
+
+            <!-- Submit Section -->
+            <section class="form-section">
+                <button type="submit" class="btn btn-primary">
+                    📤 Submit Patrol
+                </button>
+                <p class="offline-notice hidden" id="offline-notice">
+                    ⚠️ You're offline. Data will be saved and submitted when connection returns.
+                </p>
+            </section>
+        </form>
+    </div>
+
+    <script src="field-form.js"></script>
+</body>
+</html>
