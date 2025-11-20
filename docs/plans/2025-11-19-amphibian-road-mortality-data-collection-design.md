@@ -660,6 +660,141 @@ When you're ready to move from design to implementation, we can:
 
 ---
 
-**Document Version:** 1.0
-**Last Updated:** November 19, 2025
-**Next Review:** After Phase 1 validation completion
+## Implementation Notes - Phase 1 Complete
+
+### Completed: November 20, 2025
+
+**Status:** ✅ Phase 1 validation system fully implemented and deployed
+
+### What Was Built
+
+#### Field Form (`field-form/`)
+- Mobile-first responsive design with GPS capture
+- Dynamic observation entries (add/remove species during patrol)
+- Offline-first architecture using LocalStorage
+- Automatic sync when returning online
+- Species dropdown with common amphibians
+- Weather and temperature tracking
+- Session data persistence (remembers observer name)
+
+**Live:** https://lbijeau.github.io/cuda/field-form/
+
+#### Detail Form (`detail-form/`)
+- Load observations by observer name
+- Visual patrol cards showing basic/detailed status
+- Edit interface for adding road context:
+  - Road name and speed limit
+  - Traffic volume assessment
+  - Additional notes
+  - Photo URL linking
+- Structured notes format (appends to existing notes)
+
+**Live:** https://lbijeau.github.io/cuda/detail-form/
+
+#### Backend (`scripts/google-apps-script.js`)
+- Three API endpoints: submit, getPatrols, update
+- Google Sheets as data store ("Observations" sheet, 14 columns)
+- CORS-compatible: GET requests with URL-encoded JSON payloads
+- Real-time data availability (no caching)
+
+### Technical Decisions Made
+
+1. **CORS Workaround**: Switched from POST to GET requests with data in URL parameters to avoid CORS preflight (OPTIONS) requests, which Google Apps Script doesn't support
+
+2. **Vanilla JavaScript**: No framework dependencies - reduces complexity, ensures offline capability, faster load times
+
+3. **No Authentication**: Appropriate for Phase 1 validation, observer name serves as identifier
+
+4. **LocalStorage for Offline**: Simple, reliable, works across all mobile browsers
+
+5. **Structured Notes Format**: Phase 1 uses single notes field with formatted text rather than separate columns - allows flexibility for Phase 2 schema design
+
+### Known Limitations (Expected for Phase 1)
+
+- No data validation beyond required fields
+- No photo upload (URLs only)
+- No batch editing capabilities
+- Limited privacy controls (all data visible to sheet owner)
+- Observer name not authenticated
+- No data export tools (use Google Sheets directly)
+- Notes field may need parsing for Phase 2 migration
+
+### Deployment Architecture
+
+```
+GitHub Pages (Static Host)
+  ↓
+  field-form.js / detail-form.js (Browser)
+  ↓
+  GET requests with URL params
+  ↓
+  Google Apps Script (Deployed Web App)
+  ↓
+  Google Sheets API
+  ↓
+  "Observations" Sheet (14 columns)
+```
+
+### Lessons Learned
+
+1. **CORS is complex**: Google Apps Script has limitations. GET-based API avoided days of CORS debugging.
+
+2. **Offline-first is critical**: Field conditions (forests, rural roads) require offline capability from day one.
+
+3. **Two-phase workflow validated**: Separate forms for field/detail entry is architecturally sound.
+
+4. **Keep Phase 1 simple**: Resisted feature creep. Validation focused on core workflow only.
+
+### Ready for Validation Testing
+
+**Next Steps:**
+- [ ] Test with 3-5 volunteers over 2-3 patrol nights
+- [ ] Gather usability feedback via post-patrol interviews
+- [ ] Analyze data completeness and quality
+- [ ] Document pain points and improvement areas
+- [ ] Create lessons learned document for Phase 2 design
+
+### Files Created
+
+```
+Repository: https://github.com/lbijeau/cuda
+
+Core Implementation:
+- field-form/index.html, styles.css, field-form.js (420 lines)
+- detail-form/index.html, detail-form.css, detail-form.js (221 lines)
+- scripts/google-apps-script.js (172 lines)
+- index.html (landing page)
+
+Documentation:
+- docs/guides/field-form-guide.md
+- docs/guides/detail-form-guide.md
+- analysis/sample-queries.md
+- README.md (comprehensive project overview)
+- scripts/README.md (deployment instructions)
+```
+
+### Data Schema Implemented
+
+**Google Sheets Columns (14):**
+1. SubmitTime (timestamp)
+2. PatrolDate (date)
+3. PatrolTime (time)
+4. Latitude (decimal)
+5. Longitude (decimal)
+6. Observer (text)
+7. Weather (text)
+8. Temperature (number)
+9. Species (text)
+10. Count (number)
+11. LifeStage (text)
+12. Direction (text)
+13. Condition (text)
+14. Notes (text)
+
+**Note:** One row per observation (not per patrol session). Multiple observations from same patrol share session data.
+
+---
+
+**Document Version:** 1.1 (Phase 1 Implementation Complete)
+**Last Updated:** November 20, 2025
+**Next Review:** After Phase 1 validation testing with volunteers
