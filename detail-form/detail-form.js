@@ -160,14 +160,21 @@ function saveEdit(e) {
     // Submit update
     showStatus('Saving updates...', 'success');
 
-    fetch(`${APPS_SCRIPT_URL}?action=update`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedPatrol)
+    // Use GET request with data in URL to avoid CORS preflight
+    const params = new URLSearchParams({
+        action: 'update',
+        data: JSON.stringify(updatedPatrol)
+    });
+
+    fetch(`${APPS_SCRIPT_URL}?${params.toString()}`, {
+        method: 'GET'
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Server error');
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.error) {
             throw new Error(data.error);

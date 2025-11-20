@@ -29,6 +29,9 @@ function doGet(e) {
   } else if (action === 'submit') {
     // Handle submit via GET to avoid CORS issues
     return handleSubmitGet(e);
+  } else if (action === 'update') {
+    // Handle update via GET to avoid CORS issues
+    return handleUpdateGet(e);
   }
 
   return jsonResponse({ error: 'Unknown action' }, 400);
@@ -39,6 +42,16 @@ function handleSubmitGet(e) {
     // Parse data from URL parameter
     const data = JSON.parse(e.parameter.data);
     return processSubmission(data);
+  } catch (error) {
+    return jsonResponse({ error: error.toString() }, 500);
+  }
+}
+
+function handleUpdateGet(e) {
+  try {
+    // Parse data from URL parameter
+    const data = JSON.parse(e.parameter.data);
+    return processUpdate(data);
   } catch (error) {
     return jsonResponse({ error: error.toString() }, 500);
   }
@@ -121,31 +134,35 @@ function handleGetPatrols(e) {
 function handleUpdate(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Observations');
-
-    // Update specific row
-    const row = data.rowIndex;
-    sheet.getRange(row, 1, 1, 14).setValues([[
-      data.submitTime,
-      data.patrolDate,
-      data.patrolTime,
-      data.latitude,
-      data.longitude,
-      data.observer,
-      data.weather,
-      data.temperature || '',
-      data.species,
-      data.count,
-      data.lifeStage,
-      data.direction,
-      data.condition,
-      data.notes || ''
-    ]]);
-
-    return jsonResponse({ success: true, message: 'Updated observation' });
+    return processUpdate(data);
   } catch (error) {
     return jsonResponse({ error: error.toString() }, 500);
   }
+}
+
+function processUpdate(data) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Observations');
+
+  // Update specific row
+  const row = data.rowIndex;
+  sheet.getRange(row, 1, 1, 14).setValues([[
+    data.submitTime,
+    data.patrolDate,
+    data.patrolTime,
+    data.latitude,
+    data.longitude,
+    data.observer,
+    data.weather,
+    data.temperature || '',
+    data.species,
+    data.count,
+    data.lifeStage,
+    data.direction,
+    data.condition,
+    data.notes || ''
+  ]]);
+
+  return jsonResponse({ success: true, message: 'Updated observation' });
 }
 
 function jsonResponse(data, statusCode = 200) {
