@@ -1,6 +1,14 @@
 // Amphibian Road Mortality - Google Apps Script API
 // Deploy as web app: Execute as "Me", Access "Anyone"
 
+// Handle CORS preflight requests
+function doOptions(e) {
+  return ContentService
+    .createTextOutput()
+    .setMimeType(ContentService.MimeType.JSON)
+    .setContent('{}');
+}
+
 function doPost(e) {
   const action = e.parameter.action;
 
