@@ -1,5 +1,5 @@
 // Configuration
-const APPS_SCRIPT_URL = 'YOUR_DEPLOYED_APPS_SCRIPT_URL_HERE'; // TODO: Update after deployment
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUiYSR-l4geLWNsuSKxpTGyJl09ck6zU7iPF0pOlX5ZynjJlFyAheTH0SQmviKCcvjCA/exec'; // TODO: Update after deployment
 
 // State
 let observations = [];

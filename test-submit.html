@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Submit Debug</title>
+</head>
+<body>
+    <h1>Test Submit</h1>
+    <button onclick="testSubmit()">Test Submit</button>
+    <pre id="output"></pre>
+
+    <script>
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxUiYSR-l4geLWNsuSKxpTGyJl09ck6zU7iPF0pOlX5ZynjJlFyAheTH0SQmviKCcvjCA/exec';
+
+    async function testSubmit() {
+        const output = document.getElementById('output');
+        output.textContent = 'Submitting...\n';
+
+        const testData = {
+            patrolDate: "2025-11-19",
+            patrolTime: "20:30",
+            latitude: "42.4440",
+            longitude: "-76.5019",
+            observer: "Test User",
+            weather: "Rain",
+            temperature: "45",
+            observations: [
+                {
+                    species: "Spotted Salamander",
+                    count: 3,
+                    lifeStage: "Adult",
+                    direction: "To breeding site",
+                    condition: "Alive - helped across",
+                    notes: "Test observation"
+                }
+            ]
+        };
+
+        try {
+            output.textContent += 'Sending POST request...\n';
+            output.textContent += 'URL: ' + APPS_SCRIPT_URL + '?action=submit\n';
+            output.textContent += 'Data: ' + JSON.stringify(testData, null, 2) + '\n\n';
+
+            const response = await fetch(`${APPS_SCRIPT_URL}?action=submit`, {
+                method: 'POST',
+                mode: 'no-cors', // Try no-cors mode
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testData)
+            });
+
+            output.textContent += 'Response status: ' + response.status + '\n';
+            output.textContent += 'Response type: ' + response.type + '\n';
+
+            if (response.type === 'opaque') {
+                output.textContent += '\nNote: Response is opaque (no-cors mode). Check Google Sheet for data.\n';
+            } else {
+                const result = await response.json();
+                output.textContent += 'Result: ' + JSON.stringify(result, null, 2) + '\n';
+            }
+        } catch (error) {
+            output.textContent += 'ERROR: ' + error.message + '\n';
+            output.textContent += 'Stack: ' + error.stack + '\n';
+        }
+    }
+    </script>
+</body>
+</html>
